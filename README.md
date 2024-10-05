@@ -34,3 +34,56 @@ When I encountered tuples in Python, I immediately compared them to tuples in C#
 ### Python Lists
 - **Mutability**: You can change, add, or remove elements after the list is created.
 - **Performance**: More flexible but generally slower and uses more memory compared to tuples.
+### Some Observations
+I did some experiment with same python code with diffirent start values and here is results:
+```python
+print('Size of the tuple:',tpl.__sizeof__())
+print('Size of the list:',lst.__sizeof__())
+```
+exp 1:
+```python
+tpl = (1,2,3,4)
+lst = [1,2,3,4]
+```
+exp 2:
+```python
+tpl = (1,2,3)
+lst = [1,2,3]
+```
+exp 3:
+```python
+tpl = (1,2)
+lst = [1,2]
+```
+exp 4:
+```python
+tpl = (1)
+lst = [1]
+```
+exp 5:
+```python
+tpl = ()
+lst = []
+```
+results
+```plaintext
+element count:      04 | 03 | 02 |  01  | 00
+Size of the tuple:  56 | 48 | 40 || 28 || 24
+Size of the list:   72 | 72 | 56 |  48  | 40
+```
+### Thoughts
+First of all results same (while elements more than 1) as with integers when instead of integers is used strings (it dosent matter how long is string as long as they not too large). It seems each element is 8 bytes and where tuple always create new container for all elements, list as flexiable it is will preserve some space for future elements. Yet tuples seems to work odly when there are no more than 1 element, taking signifacantly less space and in weird way than I predicted. I got even weirder results with tuples when I tried this:
+```python
+tpl = ("1")
+tp2 = ("12")
+tp3 = ("123")
+tp4 = ("1234", 2)
+tp5 = ("1234",)
+tp5 = ()
+```
+```plaintext
+tpl numeration:      01 | 02 | 03 || 04 | 05 | 06
+Size of the tuple?:  42 | 43 | 44 || 40 | 32 | 24
+```
+My not very clever dump only then relaized that it is not tuple but string is created. I hate python for not being able to tell what type I working with :D
+
