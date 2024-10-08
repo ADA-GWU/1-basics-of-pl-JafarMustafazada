@@ -87,3 +87,142 @@ Size of the tuple?:  42 | 43 | 44 || 40 | 32 | 24
 ```
 My not very clever dump only then relaized that it is not tuple but string is created. I hate python for not being able to tell what type I working with :D
 
+
+##
+# Task 4. 2D Matrix Slicing
+### Techical desicions
+Code I wrote for pthon matrix slicing and c++ matrix slicing is slightly diffirent. You see, python already have pretty good ARRAY/List slicing with "negative indexing" and "steps". So all I needed to is wrap it in function for matrices. In c++ I started with implemating similar array slicing function yet instead of making input like "start index, limit index, step" I wrote "start index, end index, step" which means: instead of stoping at second provided index c++ function will also include that index into slicing result as well. This makes perfomance tiny bit better as well as implemantation of "negative indexing" (where negative index means how many step you from end of array). In the end python function gives same results as c++ one when second index input is one step less in c++ version. Ofcourse there also exception cases, if you gave them impossible for slicing input they will throw "input indexes out of range" or something similar.
+### Examples
+python one:
+```python
+Slicing parameters: row_start = 1,  col_start = 1, row_end = 3, col_end = 3
+or
+Slicing parameters: row_start = 1,  col_start = 1, row_end = -1, col_end = -1
+
+Original Matrix:
+[1, 2, 3, 4]
+[5, 6, 7, 8]
+[9, 10, 11, 12]
+[13, 14, 15, 16]
+
+Sliced Matrix:
+[6, 7]
+[10, 11]
+```
+c++ one:
+```python
+same
+Slicing parameters: row_start = 1,  col_start = 1, row_end = 3, col_end = 3
+and
+Slicing parameters: row_start = 1,  col_start = 1, row_end = -1, col_end = -1
+but it also includes end to result
+
+Original Matrix:
+[
+        [1, 2, 3, 4],
+        [5, 6, 7, 8],
+        [9, 10, 11, 12],
+        [13, 14, 15, 16],
+]
+
+Sliced Matrix:
+[
+        [6, 7, 8],
+        [10, 11, 12],
+        [14, 15, 16],
+]
+```
+### Chat Gpt result 
+Promt is "Write 2D matrix slicing in Python and C++. Show the results of the implementation on the command console. It will help to see if the outcomes of both solutions give the same result. Also dont use numpy.":
+~~~
+Understood!
+
+### Python Implementation (Console Output Example)
+```python
+def slice_matrix(matrix, row_start, row_end, col_start, col_end):
+    return [row[col_start:col_end] for row in matrix[row_start:row_end]]
+
+# Example usage:
+matrix = [
+    [1, 2, 3, 4],
+    [5, 6, 7, 8],
+    [9, 10, 11, 12],
+    [13, 14, 15, 16]
+]
+
+# Define slicing parameters
+row_start, row_end = 1, 3
+col_start, col_end = 1, 3
+
+# Slicing the matrix
+sliced_matrix = slice_matrix(matrix, row_start, row_end, col_start, col_end)
+
+# Display slicing parameters and matrices
+print(f"Slicing parameters: row_start = {row_start}, row_end = {row_end}, col_start = {col_start}, col_end = {col_end}")
+
+print("\nOriginal Matrix:")
+for row in matrix:
+    print(row)
+
+print("\nSliced Matrix:")
+for row in sliced_matrix:
+    print(row)
+```
+
+### C++ Implementation (Console Output Example)
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+vector<vector<int>> sliceMatrix(const vector<vector<int>>& matrix, int row_start, int row_end, int col_start, int col_end) {
+    vector<vector<int>> submatrix;
+
+    for (int i = row_start; i < row_end; ++i) {
+        vector<int> row(matrix[i].begin() + col_start, matrix[i].begin() + col_end);
+        submatrix.push_back(row);
+    }
+
+    return submatrix;
+}
+
+int main() {
+    vector<vector<int>> matrix = {{1, 2, 3, 4},
+                                  {5, 6, 7, 8},
+                                  {9, 10, 11, 12},
+                                  {13, 14, 15, 16}};
+
+    // Define slicing parameters
+    int row_start = 1, row_end = 3, col_start = 1, col_end = 3;
+
+    // Slicing matrix
+    vector<vector<int>> sliced_matrix = sliceMatrix(matrix, row_start, row_end, col_start, col_end);
+
+    // Display slicing parameters and matrices
+    cout << "Slicing parameters: row_start = " << row_start << ", row_end = " << row_end
+         << ", col_start = " << col_start << ", col_end = " << col_end << endl;
+
+    cout << "\nOriginal Matrix:\n";
+    for (const auto& row : matrix) {
+        for (int val : row) {
+            cout << val << " ";
+        }
+        cout << endl;
+    }
+
+    cout << "\nSliced Matrix:\n";
+    for (const auto& row : sliced_matrix) {
+        for (int val : row) {
+            cout << val << " ";
+        }
+        cout << endl;
+    }
+
+    return 0;
+}
+```
+~~~
+It full of error even in python part where it forgot to save matrix slicing result before handling it in function. Overall it is not bad if you already know how things work, yet if you dont have any idea of how to implement slicing you should ask more details and explanation rather than ready to use code from chat gpt.
+
+
