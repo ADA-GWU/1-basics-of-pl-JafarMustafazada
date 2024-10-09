@@ -89,9 +89,60 @@ My not very clever dump only then relaized that it is not tuple but string is cr
 
 
 ##
+# Task 3. Matrix Multiplacation
+### Overview
+Python code randomly generates size values and elements for matrices, multiply them and then write all of them in "testcases.txt" file (by default 100 test cases, but can be changed). C++ code can read that file and verify results. On my machine both source codes take no more than 2kb, c++ exe file is about 36kb (could be alot less if done without including whole std).
+### Perfomance
+Perfomance of c++ code in file reading and then matrix multiplying of 100 test cases on my machine is about 0.011 seconds. Not what I excepted, but I assume due to python code not needing to read file and random being tooo random it takes around 0.003 - 0.01 seconds. There are multiple matrix multiply methods out there, the most perfomant ones is made specificly for cube type matrices. I used the most simple way with perfomance O(n^3) and then find about little bit better one with O(n^{2.8}) but it was too complicated for little perfomance boost that it gives.
+### Examples
+part of python code result in file:
+```plaintext
+3 4 2
+
+50 40 25 65 
+17 64 81 68 
+94 57 24 58 
+
+96 63 
+55 74 
+34 44 
+29 21 
+
+9735 8575 
+9878 10799 
+14657 12414 
+
+
+5 4 3
+
+20 45 20 73 
+18 57 37 31 
+19 21 48 57 
+42 88 68 63 
+46 32 91 31 
+
+34 87 56 
+20 95 57 
+91 41 32 
+37 66 53 
+
+6101 11653 8194 
+6266 10544 7084 
+7543 9378 6818 
+11707 18960 12883 
+11632 12819 8955 
+```
+part of c++ code result:
+```plaintext
+test case 1 is success
+test case 2 is success
+```
+
+
+##
 # Task 4. 2D Matrix Slicing
-### Techical desicions
-Code I wrote for pthon matrix slicing and c++ matrix slicing is slightly diffirent. You see, python already have pretty good ARRAY/List slicing with "negative indexing" and "steps". So all I needed to is wrap it in function for matrices. In c++ I started with implemating similar array slicing function yet instead of making input like "start index, limit index, step" I wrote "start index, end index, step" which means: instead of stoping at second provided index c++ function will also include that index into slicing result as well. This makes perfomance tiny bit better as well as implemantation of "negative indexing" (where negative index means how many step you from end of array). In the end python function gives same results as c++ one when second index input is one step less in c++ version. Ofcourse there also exception cases, if you gave them impossible for slicing input they will throw "input indexes out of range" or something similar.
+### Technical desicions
+Code I wrote for pthon matrix slicing and c++ matrix slicing is slightly diffirent. You see, python already have pretty good ARRAY/List slicing with "negative indexing" and "steps". So all I needed to is wrap it in function for matrices. In c++ I started with implemating similar array slicing function yet instead of making input like "start index, limit index, step" I wrote "start index, end index, step" which means: instead of stoping at second provided index c++ function will also include that index into slicing result as well. This makes perfomance tiny bit better as well as implemantation of "negative indexing" (where negative index means how many step you from end of array). In the end python function gives same results as c++ one when second index input is one step less in c++ version. There also exception cases, if you gave them impossible for slicing input they will throw "input indexes out of range" or something similar.
 ### Examples
 python one:
 ```python
