@@ -137,12 +137,53 @@ part of c++ code result:
 test case 1 is success
 test case 2 is success
 ```
+chatGPT result:
+```plaintext
+def matrix_multiply(A, B):
+    # Number of rows and columns in matrix A
+    rows_A = len(A)
+    cols_A = len(A[0])
+    
+    # Number of rows and columns in matrix B
+    rows_B = len(B)
+    cols_B = len(B[0])
+    
+    # Resulting matrix of dimensions rows_A x cols_B
+    C = [[0 for _ in range(cols_B)] for _ in range(rows_A)]
+
+    # Matrix multiplication
+    for i in range(rows_A):
+        for j in range(cols_B):
+            for k in range(cols_A):
+                C[i][j] += A[i][k] * B[k][j]
+
+    return C
+
+# Example usage
+A = [
+    [1, 2, 3],
+    [4, 5, 6]
+]
+
+B = [
+    [7, 8],
+    [9, 10],
+    [11, 12]
+]
+
+result = matrix_multiply(A, B)
+for row in result:
+    print(row)
+```
+This result of chat gpt almost like my python code (I wonder why) yet it lack secrity check for cases when given matrices is not valid for multiplacation.
 
 
 ##
 # Task 4. 2D Matrix Slicing
 ### Technical desicions
 Code I wrote for pthon matrix slicing and c++ matrix slicing is slightly diffirent. You see, python already have pretty good ARRAY/List slicing with "negative indexing" and "steps". So all I needed to is wrap it in function for matrices. In c++ I started with implemating similar array slicing function yet instead of making input like "start index, limit index, step" I wrote "start index, end index, step" which means: instead of stoping at second provided index c++ function will also include that index into slicing result as well. This makes perfomance tiny bit better as well as implemantation of "negative indexing" (where negative index means how many step you from end of array). In the end python function gives same results as c++ one when second index input is one step less in c++ version. There also exception cases, if you gave them impossible for slicing input they will throw "input indexes out of range" or something similar.
+###
+Also I added image creation as html file :3
 ### Examples
 python one:
 ```python
