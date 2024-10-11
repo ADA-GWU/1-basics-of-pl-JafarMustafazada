@@ -15,7 +15,7 @@ def create_image(matrix):
         temp += '</tr>'
     temp += '</table>'
 
-    with open("result.html", "w") as file:
+    with open("result_py.html", "w") as file:
         file.write(temp)
         
 def slicing2D(matrix, sRow, sColoumn, eRow, eColoumn):
